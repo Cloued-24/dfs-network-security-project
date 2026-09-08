@@ -1,0 +1,43 @@
+! =========================================================
+! SW-HQ - HQ Access Switch (Cisco 2960)
+! Trunks 4 department VLANs to R-HQ for inter-VLAN routing
+! =========================================================
+
+hostname SW-HQ
+
+vlan 10
+ name HR
+vlan 20
+ name IT
+vlan 30
+ name CC
+vlan 40
+ name MK
+
+! HR department access ports (5 users)
+interface range fastEthernet 0/1-5
+ switchport mode access
+ switchport access vlan 10
+
+! IT department access ports (2 users)
+interface range fastEthernet 0/6-7
+ switchport mode access
+ switchport access vlan 20
+
+! CC department access ports (5 users)
+interface range fastEthernet 0/8-12
+ switchport mode access
+ switchport access vlan 30
+
+! MK department access ports (5 users)
+interface range fastEthernet 0/13-17
+ switchport mode access
+ switchport access vlan 40
+
+! Trunk to R-HQ - carries all 4 VLANs
+interface fastEthernet 0/24
+ switchport mode trunk
+ switchport trunk allowed vlan 10,20,30,40
+
+end
+copy running-config startup-config

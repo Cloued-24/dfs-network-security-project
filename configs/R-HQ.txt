@@ -1,0 +1,112 @@
+! =========================================================
+! R-HQ - HQ Edge Router (Cisco 2911)
+! Router-on-a-stick inter-VLAN routing, ACLs, IPSec peer
+! =========================================================
+
+! --- Enable the security license before any crypto commands ---
+! license boot module c2900 technology-package securityk9
+! (accept EULA: yes), then: end / copy run start / reload
+
+hostname R-HQ
+
+! Trunk-facing physical interface - no IP, sub-interfaces do the routing
+interface gigabitEthernet 0/0
+ no ip address
+ no shutdown
+
+interface gigabitEthernet 0/0.10
+ encapsulation dot1Q 10
+ ip address 192.168.1.1 255.255.255.248
+
+interface gigabitEthernet 0/0.20
+ encapsulation dot1Q 20
+ ip address 192.168.1.9 255.255.255.248
+
+interface gigabitEthernet 0/0.30
+ encapsulation dot1Q 30
+ ip address 192.168.1.17 255.255.255.248
+
+interface gigabitEthernet 0/0.40
+ encapsulation dot1Q 40
+ ip address 192.168.1.25 255.255.255.248
+
+! WAN link to R-EXT
+interface gigabitEthernet 0/1
+ description WAN link to R-EXT
+ ip address 203.0.113.1 255.255.255.252
+ no shutdown
+
+ip route 172.16.1.0 255.255.255.240 203.0.113.2
+
+! =========================================================
+! ACLs - departmental isolation
+! IT can reach everyone; HR/CC/MK cannot reach each other
+! =========================================================
+ip access-list extended ACL-TO-HR
+ permit ip 192.168.1.8 0.0.0.7 192.168.1.0 0.0.0.7
+ deny   ip 192.168.1.16 0.0.0.7 192.168.1.0 0.0.0.7
+ deny   ip 192.168.1.24 0.0.0.7 192.168.1.0 0.0.0.7
+ permit ip any 192.168.1.0 0.0.0.7
+
+ip access-list extended ACL-TO-CC
+ permit ip 192.168.1.8 0.0.0.7 192.168.1.16 0.0.0.7
+ deny   ip 192.168.1.0 0.0.0.7 192.168.1.16 0.0.0.7
+ deny   ip 192.168.1.24 0.0.0.7 192.168.1.16 0.0.0.7
+ permit ip any 192.168.1.16 0.0.0.7
+
+ip access-list extended ACL-TO-MK
+ permit ip 192.168.1.8 0.0.0.7 192.168.1.24 0.0.0.7
+ deny   ip 192.168.1.0 0.0.0.7 192.168.1.24 0.0.0.7
+ deny   ip 192.168.1.16 0.0.0.7 192.168.1.24 0.0.0.7
+ permit ip any 192.168.1.24 0.0.0.7
+
+! IT isolation - HR/CC/MK cannot initiate to IT, but IT's own
+! outbound pings must still receive replies (echo-reply carve-out)
+ip access-list extended ACL-TO-IT
+ permit icmp 192.168.1.0 0.0.0.7 192.168.1.8 0.0.0.7 echo-reply
+ permit icmp 192.168.1.16 0.0.0.7 192.168.1.8 0.0.0.7 echo-reply
+ permit icmp 192.168.1.24 0.0.0.7 192.168.1.8 0.0.0.7 echo-reply
+ deny   ip 192.168.1.0 0.0.0.7 192.168.1.8 0.0.0.7
+ deny   ip 192.168.1.16 0.0.0.7 192.168.1.8 0.0.0.7
+ deny   ip 192.168.1.24 0.0.0.7 192.168.1.8 0.0.0.7
+ permit ip any 192.168.1.8 0.0.0.7
+
+interface gigabitEthernet 0/0.10
+ ip access-group ACL-TO-HR out
+
+interface gigabitEthernet 0/0.30
+ ip access-group ACL-TO-CC out
+
+interface gigabitEthernet 0/0.40
+ ip access-group ACL-TO-MK out
+
+interface gigabitEthernet 0/0.20
+ ip access-group ACL-TO-IT out
+
+! =========================================================
+! IPSec site-to-site VPN - HR subnet <-> external server subnet only
+! =========================================================
+ip access-list extended VPN-TRAFFIC
+ permit ip 192.168.1.0 0.0.0.7 172.16.1.0 0.0.0.15
+
+crypto isakmp policy 10
+ encryption aes 256
+ hash sha
+ authentication pre-share
+ group 2
+ lifetime 86400
+
+crypto isakmp key DFS-VPN-Key2026 address 203.0.113.2
+
+crypto ipsec transform-set DFS-TSET esp-aes 256 esp-sha-hmac
+
+crypto map DFS-VPN-MAP 10 ipsec-isakmp
+ set peer 203.0.113.2
+ set transform-set DFS-TSET
+ match address VPN-TRAFFIC
+
+interface gigabitEthernet 0/1
+ crypto map DFS-VPN-MAP
+
+end
+copy running-config startup-config

@@ -1,0 +1,52 @@
+! =========================================================
+! R-EXT - External Site Edge Router (Cisco 2911)
+! WAN peer to R-HQ, gateway for the server segment, IPSec peer
+! =========================================================
+
+! --- Enable the security license before any crypto commands ---
+! license boot module c2900 technology-package securityk9
+! (accept EULA: yes), then: end / copy run start / reload
+
+hostname R-EXT
+
+! WAN link to R-HQ
+interface gigabitEthernet 0/1
+ description WAN link to R-HQ
+ ip address 203.0.113.2 255.255.255.252
+ no shutdown
+
+! LAN to SW-EXT - server segment
+interface gigabitEthernet 0/0
+ description LAN to SW-EXT (server segment)
+ ip address 172.16.1.1 255.255.255.240
+ no shutdown
+
+ip route 192.168.1.0 255.255.255.0 203.0.113.1
+
+! =========================================================
+! IPSec site-to-site VPN - mirrored from R-HQ
+! =========================================================
+ip access-list extended VPN-TRAFFIC
+ permit ip 172.16.1.0 0.0.0.15 192.168.1.0 0.0.0.7
+
+crypto isakmp policy 10
+ encryption aes 256
+ hash sha
+ authentication pre-share
+ group 2
+ lifetime 86400
+
+crypto isakmp key DFS-VPN-Key2026 address 203.0.113.1
+
+crypto ipsec transform-set DFS-TSET esp-aes 256 esp-sha-hmac
+
+crypto map DFS-VPN-MAP 10 ipsec-isakmp
+ set peer 203.0.113.1
+ set transform-set DFS-TSET
+ match address VPN-TRAFFIC
+
+interface gigabitEthernet 0/1
+ crypto map DFS-VPN-MAP
+
+end
+copy running-config startup-config

@@ -1,0 +1,16 @@
+! =========================================================
+! SW-EXT - External Site Server Switch (Cisco 2960)
+! Flat access segment for DNS, WEB and EMAIL servers
+! =========================================================
+
+hostname SW-EXT
+
+interface range fastEthernet 0/1-3
+ switchport mode access
+
+! Fa0/1 -> DNS server   (172.16.1.2 / 255.255.255.240 / gw 172.16.1.1)
+! Fa0/2 -> WEB server   (172.16.1.3 / 255.255.255.240 / gw 172.16.1.1)
+! Fa0/3 -> EMAIL server (172.16.1.4 / 255.255.255.240 / gw 172.16.1.1)
+
+end
+copy running-config startup-config
