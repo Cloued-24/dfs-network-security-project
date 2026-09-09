@@ -16,7 +16,7 @@ DFS is moving from a third-party managed IT model to owning its own network. Req
 
 ## Network topology
 
-!\[DFS network topology](docs/topology.png)
+![DFS network topology](docs/topology.png)
 
 The design follows Cisco's hierarchical internetworking model, collapsed into two tiers appropriate for this scale (17 LAN users across 4 VLANs):
 
