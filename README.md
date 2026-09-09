@@ -16,7 +16,7 @@ DFS is moving from a third-party managed IT model to owning its own network. Req
 
 ## Network topology
 
-![DFS network topology](docs/topology.png)
+!\[DFS network topology](docs/topology.png)
 
 The design follows Cisco's hierarchical internetworking model, collapsed into two tiers appropriate for this scale (17 LAN users across 4 VLANs):
 
@@ -67,7 +67,7 @@ license boot module c2900 technology-package securityk9
 end
 copy running-config startup-config
 reload
-! at "Proceed with reload? \\\\\\\\\\\\\\\[confirm]" press Enter only
+! at "Proceed with reload? \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\[confirm]" press Enter only
 ```
 
 Verify with `show version` — the `security` row must read `securityk9` under **Current** (an Evaluation license is sufficient for a lab build).
@@ -150,7 +150,7 @@ interface gigabitEthernet 0/1
 
 Mirrored on `R-EXT` with peer/traffic direction reversed — see [`configs/R-EXT.txt`](configs/R-EXT.txt).
 
-> \\\\\\\\\\\\\\\*\\\\\\\\\\\\\\\*Note:\\\\\\\\\\\\\\\*\\\\\\\\\\\\\\\* `hash sha` and `group 2` are used instead of the originally planned `sha256`/`group 14`, because this Packet Tracer IOS image (`15.1(4)M4`) rejects the newer options with "Invalid input detected". AES-256 encryption was retained as planned. Both routers' ISAKMP policies must match exactly for Phase 1 to negotiate.
+> \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*Note:\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\* `hash sha` and `group 2` are used instead of the originally planned `sha256`/`group 14`, because this Packet Tracer IOS image (`15.1(4)M4`) rejects the newer options with "Invalid input detected". AES-256 encryption was retained as planned. Both routers' ISAKMP policies must match exactly for Phase 1 to negotiate.
 
 ## Verification commands
 
@@ -162,70 +162,46 @@ Mirrored on `R-EXT` with peer/traffic direction reversed — see [`configs/R-EXT
 |`show interfaces trunk`|Which VLANs are allowed **and actively forwarding** on a trunk|
 |`show spanning-tree vlan <id>`|Per-port STP state (FWD/LIS/LRN/BLK) for a VLAN|
 |`show access-lists` / `show ip access-lists`|ACL entries with live match counters|
-|`show crypto isakmp sa`|IPSec Phase 1 status (`QM\\\\\\\\\\\\\\\_IDLE` = healthy)|
+|`show crypto isakmp sa`|IPSec Phase 1 status (`QM\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\_IDLE` = healthy)|
 |`show crypto ipsec sa`|IPSec Phase 2 — encrypt/decrypt packet counters, tunnel scope|
 
 ## Screenshots
 
-### Network Topology
+\### Network Topology
 
-<<<<<<< HEAD
-!\[Packet Tracer topology view](dfs-github/screenshots/topology-packet-tracer.png)
-=======
-![Packet Tracer topology view](dfs-github/screenshots/topology-packet-tracer.png)
->>>>>>> 8c29b6a046369a601163f72d370280a8fdfbbdc6
+!\[Packet Tracer topology view](docs/screenshots/topology-packet-tracer.png)
 
 
 
-### VLAN Configuration
+\### VLAN Configuration
 
-<<<<<<< HEAD
-!\[VLAN brief output](dfs-github/screenshots/vlan-brief.png)
-=======
-![VLAN brief output](dfs-github/screenshots/vlan-brief.png)
->>>>>>> 8c29b6a046369a601163f72d370280a8fdfbbdc6
+!\[VLAN brief output](docs/screenshots/vlan-brief.png)
 
 
 
-### ACL Match Counters
+\### ACL Match Counters
 
-<<<<<<< HEAD
-!\[Access list counters](dfs-github/screenshots/access-lists.png)
-=======
-![Access list counters](dfs-github/screenshots/access-lists.png)
->>>>>>> 8c29b6a046369a601163f72d370280a8fdfbbdc6
+!\[Access list counters](docs/screenshots/access-lists.png)
 
 
 
-### Departmental Isolation Test
+\### Departmental Isolation Test
 
 IT successfully pings HR:
 
-<<<<<<< HEAD
-!\[IT pinging HR](dfs-github/screenshots/IT-pinging-HR.png)
-=======
-![IT pinging HR](dfs-github/screenshots/IT-pinging-HR.png)
->>>>>>> 8c29b6a046369a601163f72d370280a8fdfbbdc6
+!\[IT pinging HR](docs/screenshots/IT-pinging-HR.png)
 
 
 
 HR fails to ping CC (isolation working):
 
-<<<<<<< HEAD
-!\[HR failing to ping CC](dfs-github/screenshots/HR-failing-to-ping-CC.png)
-=======
-![HR failing to ping CC](dfs-github/screenshots/HR-failing-to-ping-CC.png)
->>>>>>> 8c29b6a046369a601163f72d370280a8fdfbbdc6
+!\[HR failing to ping CC](docs/screenshots/HR-failing-to-ping-CC.png)
 
 
 
-### IPSec Tunnel Verification
+\### IPSec Tunnel Verification
 
-<<<<<<< HEAD
-!\[IPSec SA output](dfs-github/screenshots/ipsec.png)
-=======
-![IPSec SA output](dfs-github/screenshots/ipsec.png)
->>>>>>> 8c29b6a046369a601163f72d370280a8fdfbbdc6
+!\[IPSec SA output](docs/screenshots/ipsec.png)
 
 
 
@@ -240,7 +216,7 @@ HR fails to ping CC (isolation working):
 |HR / CC / MK ping IT (unsolicited)|Fail|✅ Confirmed|
 |IT's own outbound pings to HR/CC/MK receive replies|Success|✅ Confirmed|
 |HR ping DNS / WEB / EMAIL servers|Success|✅ Confirmed|
-|`show crypto isakmp sa` shows `QM\\\\\\\\\\\\\\\_IDLE`|Tunnel Phase 1 active|✅ Confirmed|
+|`show crypto isakmp sa` shows `QM\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\_IDLE`|Tunnel Phase 1 active|✅ Confirmed|
 |`show crypto ipsec sa` encaps/decaps increase on HR-to-server traffic|Tunnel encrypting HR traffic|✅ Confirmed (17 encaps / 12 decaps observed)|
 |CC/MK traffic to servers does not increment IPSec counters|Tunnel scoped to HR only|⬜ Pending final confirmation|
 
@@ -257,7 +233,7 @@ Real issues hit during the build, root cause, and the fix applied.
 |VLAN 30 allowed on trunk but not yet forwarding|Normal STP reconvergence delay after the trunk change|Waited \~30–50s for STP to reach `FWD` state|
 |ACL sequence number reused, second line rejected|Same manual sequence number entered twice|`no 1` to remove the bad entry, re-added with new sequence numbers|
 |After `ACL-TO-IT`, IT could no longer ping HR/CC/MK|Deny rules also blocked ICMP echo-reply packets returning to IT|Added explicit `permit icmp ... echo-reply` lines above the denies|
-|HR couldn't ping servers despite tunnel showing `QM\\\\\\\\\\\\\\\_IDLE`|DNS/WEB/EMAIL servers had never been assigned IP addresses|Assigned static IP/gateway to each server|
+|HR couldn't ping servers despite tunnel showing `QM\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\_IDLE`|DNS/WEB/EMAIL servers had never been assigned IP addresses|Assigned static IP/gateway to each server|
 
 ## Tools
 
