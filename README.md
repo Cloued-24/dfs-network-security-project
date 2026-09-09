@@ -167,25 +167,25 @@ Mirrored on `R-EXT` with peer/traffic direction reversed — see [`configs/R-EXT
 
 ## Screenshots
 
-\### Network Topology
+### Network Topology
 
 ![Packet Tracer topology view](docs/screenshots/topology-packet-tracer.png)
 
 
 
-\### VLAN Configuration
+### VLAN Configuration
 
 ![VLAN brief output](docs/screenshots/vlan-brief.png)
 
 
 
-\### ACL Match Counters
+### ACL Match Counters
 
 ![Access list counters](docs/screenshots/access-lists.png)
 
 
 
-\### Departmental Isolation Test
+### Departmental Isolation Test
 
 IT successfully pings HR:
 
@@ -199,7 +199,7 @@ HR fails to ping CC (isolation working):
 
 
 
-\### IPSec Tunnel Verification
+### IPSec Tunnel Verification
 
 ![IPSec SA output](docs/screenshots/ipsec.png)
 
