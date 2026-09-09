@@ -16,7 +16,7 @@ DFS is moving from a third-party managed IT model to owning its own network. Req
 
 ## Network topology
 
-!\[DFS network topology](docs/topology.png)
+![DFS network topology](docs/topology.png)
 
 The design follows Cisco's hierarchical internetworking model, collapsed into two tiers appropriate for this scale (17 LAN users across 4 VLANs):
 
@@ -167,41 +167,65 @@ Mirrored on `R-EXT` with peer/traffic direction reversed — see [`configs/R-EXT
 
 ## Screenshots
 
-\### Network Topology
+### Network Topology
 
+<<<<<<< HEAD
 !\[Packet Tracer topology view](dfs-github/screenshots/topology-packet-tracer.png)
+=======
+![Packet Tracer topology view](dfs-github/screenshots/topology-packet-tracer.png)
+>>>>>>> 8c29b6a046369a601163f72d370280a8fdfbbdc6
 
 
 
-\### VLAN Configuration
+### VLAN Configuration
 
+<<<<<<< HEAD
 !\[VLAN brief output](dfs-github/screenshots/vlan-brief.png)
+=======
+![VLAN brief output](dfs-github/screenshots/vlan-brief.png)
+>>>>>>> 8c29b6a046369a601163f72d370280a8fdfbbdc6
 
 
 
-\### ACL Match Counters
+### ACL Match Counters
 
+<<<<<<< HEAD
 !\[Access list counters](dfs-github/screenshots/access-lists.png)
+=======
+![Access list counters](dfs-github/screenshots/access-lists.png)
+>>>>>>> 8c29b6a046369a601163f72d370280a8fdfbbdc6
 
 
 
-\### Departmental Isolation Test
+### Departmental Isolation Test
 
 IT successfully pings HR:
 
+<<<<<<< HEAD
 !\[IT pinging HR](dfs-github/screenshots/IT-pinging-HR.png)
+=======
+![IT pinging HR](dfs-github/screenshots/IT-pinging-HR.png)
+>>>>>>> 8c29b6a046369a601163f72d370280a8fdfbbdc6
 
 
 
 HR fails to ping CC (isolation working):
 
+<<<<<<< HEAD
 !\[HR failing to ping CC](dfs-github/screenshots/HR-failing-to-ping-CC.png)
+=======
+![HR failing to ping CC](dfs-github/screenshots/HR-failing-to-ping-CC.png)
+>>>>>>> 8c29b6a046369a601163f72d370280a8fdfbbdc6
 
 
 
-\### IPSec Tunnel Verification
+### IPSec Tunnel Verification
 
+<<<<<<< HEAD
 !\[IPSec SA output](dfs-github/screenshots/ipsec.png)
+=======
+![IPSec SA output](dfs-github/screenshots/ipsec.png)
+>>>>>>> 8c29b6a046369a601163f72d370280a8fdfbbdc6
 
 
 
