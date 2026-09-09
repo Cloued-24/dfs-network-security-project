@@ -16,7 +16,7 @@ DFS is moving from a third-party managed IT model to owning its own network. Req
 
 ## Network topology
 
-!\[DFS network topology](docs/topology.png)
+![DFS network topology](docs/topology.png)
 
 The design follows Cisco's hierarchical internetworking model, collapsed into two tiers appropriate for this scale (17 LAN users across 4 VLANs):
 
@@ -169,19 +169,19 @@ Mirrored on `R-EXT` with peer/traffic direction reversed — see [`configs/R-EXT
 
 \### Network Topology
 
-!\[Packet Tracer topology view](docs/screenshots/topology-packet-tracer.png)
+![Packet Tracer topology view](docs/screenshots/topology-packet-tracer.png)
 
 
 
 \### VLAN Configuration
 
-!\[VLAN brief output](docs/screenshots/vlan-brief.png)
+![VLAN brief output](docs/screenshots/vlan-brief.png)
 
 
 
 \### ACL Match Counters
 
-!\[Access list counters](docs/screenshots/access-lists.png)
+![Access list counters](docs/screenshots/access-lists.png)
 
 
 
@@ -189,19 +189,19 @@ Mirrored on `R-EXT` with peer/traffic direction reversed — see [`configs/R-EXT
 
 IT successfully pings HR:
 
-!\[IT pinging HR](docs/screenshots/IT-pinging-HR.png)
+![IT pinging HR](docs/screenshots/IT-pinging-HR.png)
 
 
 
 HR fails to ping CC (isolation working):
 
-!\[HR failing to ping CC](docs/screenshots/HR-failing-to-ping-CC.png)
+![HR failing to ping CC](docs/screenshots/HR-failing-to-ping-CC.png)
 
 
 
 \### IPSec Tunnel Verification
 
-!\[IPSec SA output](docs/screenshots/ipsec.png)
+![IPSec SA output](docs/screenshots/ipsec.png)
 
 
 
